@@ -12,15 +12,6 @@ build_isolated/
 devel_isolated/
 
 
-# Dynamic reconfigure
-*.cfgc
-/cfg/cpp/
-/cfg/*.py
-
-# Catkin or colcon custom
-CATKIN_IGNORE
-*.pcd
-
 # Emacs/Vim/Temp
 *~
 .#*
