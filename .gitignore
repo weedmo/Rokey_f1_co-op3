@@ -11,10 +11,6 @@ action_gen/
 build_isolated/
 devel_isolated/
 
-# ROS messages/services/actions (generated files)
-msg/_*.py
-srv/_*.py
-action/_*.py
 
 # Dynamic reconfigure
 *.cfgc
@@ -24,14 +20,6 @@ action/_*.py
 # Catkin or colcon custom
 CATKIN_IGNORE
 *.pcd
-*.launch.*
-
-# IDEs
-.project
-.cproject
-*.user
-qtcreator-*
-CMakeLists.txt.user
 
 # Emacs/Vim/Temp
 *~
