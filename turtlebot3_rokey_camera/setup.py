@@ -25,7 +25,8 @@ setup(
     entry_points={
         'console_scripts': [
             'image_compensation = turtlebot3_rokey_camera.image_compensation:main',
-            'image_projection = turtlebot3_rokey_camera.image_projection:main'
+            'image_projection = turtlebot3_rokey_camera.image_projection:main',
+            'aruco_pose_publisher = turtlebot3_rokey_camera.aruco_pose_publisher:main',
         ],
     },
 )

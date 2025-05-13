@@ -37,7 +37,7 @@ class ImageProjection(Node):
             integer_range=[
                 IntegerRange(
                     from_value=0,
-                    to_value=360,
+                    to_value=720,
                     step=1)]
         )
         parameter_descriptor_bottom = ParameterDescriptor(
@@ -164,21 +164,21 @@ class ImageProjection(Node):
             )
             cv_image_calib = cv2.line(
                 cv_image_calib,
-                (640 - bottom_x, 360 + bottom_y),
-                (640 + bottom_x, 360 + bottom_y),
+                (640 - bottom_x, 120 + bottom_y),
+                (640 + bottom_x, 120 + bottom_y),
                 (0, 0, 255),
                 1
             )
             cv_image_calib = cv2.line(
                 cv_image_calib,
-                (640 + bottom_x, 360 + bottom_y),
+                (640 + bottom_x, 120 + bottom_y),
                 (640 + top_x, 180 - top_y),
                 (0, 0, 255),
                 1
             )
             cv_image_calib = cv2.line(
                 cv_image_calib,
-                (640 - bottom_x, 360 + bottom_y),
+                (640 - bottom_x, 120 + bottom_y),
                 (640 - top_x, 180 - top_y),
                 (0, 0, 255),
                 1
@@ -200,8 +200,8 @@ class ImageProjection(Node):
         pts_src = np.array([
             [640 - top_x, 180 - top_y],
             [640 + top_x, 180 - top_y],
-            [640 + bottom_x, 360 + bottom_y],
-            [640 - bottom_x, 360 + bottom_y]
+            [640 + bottom_x, 120 + bottom_y],
+            [640 - bottom_x, 120 + bottom_y]
         ])
 
         # selecting 4 points from image that will be transformed
