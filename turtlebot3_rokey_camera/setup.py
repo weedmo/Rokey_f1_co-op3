@@ -24,9 +24,14 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'image_compensation = turtlebot3_rokey_camera.image_compensation:main',
-            'image_projection = turtlebot3_rokey_camera.image_projection:main',
+            'birds_eye_view = turtlebot3_rokey_camera.birds_eye_view:main',
+            'auto_birdseye_from_yaml = turtlebot3_rokey_camera.auto_birdseye_from_yaml:main',
             'aruco_pose_publisher = turtlebot3_rokey_camera.aruco_pose_publisher:main',
+            'image_compensation = turtlebot3_autorace_camera.image_compensation:main',
+            'image_projection = turtlebot3_autorace_camera.image_projection:main',
+            'image_preprocessor = turtlebot3_rokey_camera.image_preprocessor:main',
+            'sliding_window_tracker = turtlebot3_rokey_camera.sliding_window_tracker:main',
+            'sobel_curve_direction = turtlebot3_rokey_camera.sobel_curve_direction:main',
         ],
     },
 )

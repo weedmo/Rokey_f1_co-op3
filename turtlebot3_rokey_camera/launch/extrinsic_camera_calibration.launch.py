@@ -40,7 +40,7 @@ def generate_launch_description():
 
     projection_param = os.path.join(
         get_package_share_directory('turtlebot3_rokey_camera'),
-        'config',
+        'config'
         'projection.yaml'
         )
 
