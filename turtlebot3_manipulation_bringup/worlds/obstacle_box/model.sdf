@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="obstacle_box">
+    <static>false</static>
+    <link name="link">
+      <pose>0 0 0.1 0 0 0</pose> <!-- 바닥에 닿도록 위치 설정 -->
+      
+      <inertial>
+        <mass>0.2</mass>  <!-- 대략 200g -->
+        <inertia>
+          <ixx>3.33e-04</ixx>
+          <iyy>3.33e-04</iyy>
+          <izz>3.33e-04</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.2 0.2 0.2</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.2 0.2 0.2</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.1 0.1 1</ambient>  <!-- 붉은색 -->
+          <diffuse>0.8 0.1 0.1 1</diffuse>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>
