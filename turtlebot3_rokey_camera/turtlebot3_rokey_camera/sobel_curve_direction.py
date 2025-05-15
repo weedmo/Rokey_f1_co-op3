@@ -33,7 +33,8 @@ class SobelCurveDirection(Node):
                                     [1, 0, -1],
                                     [0, -1, -2]], dtype=np.float32),  # ↘ 좌회전
         }
-
+        self.lost_count = 0  # ✅ 차선을 못 본 횟수 누적
+        
     def image_callback(self, msg):
         gray = self.bridge.imgmsg_to_cv2(msg, desired_encoding='mono8')
         scores = {}
@@ -43,39 +44,52 @@ class SobelCurveDirection(Node):
             score = np.sum(np.abs(filtered))
             scores[name] = score
 
-        best = max(scores, key=scores.get)
-        delta = abs(scores['diag_left'] - scores['diag_right'])
+        total_score = sum(scores.values())
+        score_threshold = 1500000
 
-        max_ang = 0.25
-        base_lin = 0.1
+        cmd = Twist()
 
-        if best == 'vertical':
-            direction = '직진'
-            lin, ang = base_lin, 0.0
-        elif best == 'diag_left':
-            direction = '우회전'
-            lin = base_lin
-            ang = -min(delta * 0.00005, max_ang)
-        elif best == 'diag_right':
-            direction = '좌회전'
-            lin = base_lin
-            ang = +min(delta * 0.00005, max_ang)
-        else:
+        if total_score < score_threshold:
             direction = '정지'
-            lin, ang = 0.0, 0.0
+            self.lost_count += 1  # ✅ 차선 못 보면 증가
 
-        # direction 퍼블리시
+            # ✅ 각도 회전 이벤트 (좌우 번갈아)
+            rotate_dir = 1 if self.lost_count % 2 == 0 else -1
+            cmd.linear.x = 0.0
+            cmd.angular.z = rotate_dir * 1.0  # 일정 각도 회전
+
+        else:
+            self.lost_count = 0  # ✅ 차선이 보이면 초기화
+
+            best = max(scores, key=scores.get)
+            delta = abs(scores['diag_left'] - scores['diag_right'])
+            max_ang = 0.25
+            base_lin = 0.1
+
+            if best == 'vertical':
+                direction = '직진'
+                cmd.linear.x = base_lin
+                cmd.angular.z = 0.0
+            elif best == 'diag_left':
+                direction = '우회전'
+                cmd.linear.x = base_lin
+                cmd.angular.z = -min(delta * 0.00003, max_ang)
+            elif best == 'diag_right':
+                direction = '좌회전'
+                cmd.linear.x = base_lin
+                cmd.angular.z = +min(delta * 0.00003, max_ang)
+            else:
+                direction = '정지'
+                cmd.linear.x = 0.0
+                cmd.angular.z = 0.0
+
+        # 퍼블리시
         dir_msg = String()
         dir_msg.data = direction
         self.direction_pub.publish(dir_msg)
-
-        # cmd_vel 퍼블리시
-        cmd = Twist()
-        cmd.linear.x = lin
-        cmd.angular.z = ang
         self.cmd_pub.publish(cmd)
 
-        self.get_logger().info(f"[{direction}] lin: {lin:.2f}, ang: {ang:.2f}")
+        self.get_logger().info(f"[{direction}] lin: {cmd.linear.x:.2f}, ang: {cmd.angular.z:.2f} | total_score: {total_score:.0f}, lost: {self.lost_count}")
 
 def main(args=None):
     rclpy.init(args=args)
