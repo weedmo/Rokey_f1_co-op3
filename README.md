@@ -7,5 +7,5 @@
 2. 다음 명령어를 `.bashrc`에 추가하고 적용하세요:
 
    ```bash
-   echo 'export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:~/your_ws/src/turtlebot3_manipulation/turtlebot3_manipulation_bringup/worlds >> ~/.bashrc
+   echo 'export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:~/your_ws/src/Rokey_f1_co-op3/turtlebot3_manipulation_bringup/worlds >> ~/.bashrc
    source ~/.bashrc
