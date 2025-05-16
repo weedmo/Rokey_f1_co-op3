@@ -57,7 +57,7 @@ echo 'export GAZEBO_PLUGIN_PATH=$HOME/team_f_01_ws/build/turtlebot3_gazebo:$GAZE
 
 # 워크스페이스 overlay
 echo 'source ~/team_f_01_ws/install/setup.bash' >> ~/.bashrc
-
+echo 'export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp' >> ~/.bashrc
 # 적용
 source ~/.bashrc
 ```
