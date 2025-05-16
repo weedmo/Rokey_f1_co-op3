@@ -12,7 +12,20 @@ class ImagePreprocessor(Node):
         super().__init__('image_preprocessor')
         self.bridge = CvBridge()
 
-        # ✅ 이미지 구독 및 결과 퍼블리셔 설정
+        # Declare parameters with defaults
+        self.declare_parameter('min_length', 5.0)
+        self.declare_parameter('min_points', 1)
+        self.declare_parameter('blur_ksize', 21)
+        self.declare_parameter('adaptive_blocksize', 11)
+        self.declare_parameter('adaptive_C', 0.1)
+
+        # Load parameters
+        self.min_length = self.get_parameter('min_length').value
+        self.min_points = self.get_parameter('min_points').value
+        self.blur_ksize = self.get_parameter('blur_ksize').value
+        self.adaptive_blocksize = self.get_parameter('adaptive_blocksize').value
+        self.adaptive_C = self.get_parameter('adaptive_C').value
+
         self.subscription = self.create_subscription(
             Image, '/pi_camera/image_raw', self.image_callback, 10)
         
@@ -22,50 +35,43 @@ class ImagePreprocessor(Node):
         self.get_logger().info("✅ image_preprocessor 노드 시작됨!")
 
     def image_callback(self, msg):
-        # 1. 이미지 수신 및 OpenCV 이미지로 변환
+        # Convert to OpenCV image
         cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
-
-        # 2. 흑백 변환
         gray = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
 
-        # 3. 조명 제거
-        blur = cv2.GaussianBlur(gray, (21, 21), 0)
+        # Illumination normalization
+        blur = cv2.GaussianBlur(gray, (self.blur_ksize, self.blur_ksize), 0)
         norm = cv2.divide(gray, blur, scale=255)
 
-        # 4. 이진 변환
+        # Adaptive thresholding
         binary = cv2.adaptiveThreshold(
             norm, 255,
             cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
             cv2.THRESH_BINARY,
-            11, 0.1
+            self.adaptive_blocksize, self.adaptive_C
         )
 
-        # 5. 중위수 필터
+        # Median filter
         median = cv2.medianBlur(binary, 3)
 
-        # ✅ 6. 연결된 선 또는 곡선이 일정 길이 이상인 것만 추출
+        # Contour filtering
         contours, _ = cv2.findContours(median, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-
-        min_length = 5
-        min_points = 1  # 곡선 점 개수 기준 추가
         mask = np.zeros_like(median)
 
         for contour in contours:
             arc_len = cv2.arcLength(contour, False)
-            if arc_len > min_length and len(contour) > min_points:
+            if arc_len > self.min_length and len(contour) > self.min_points:
                 cv2.drawContours(mask, [contour], -1, 255, thickness=cv2.FILLED)
 
-
-        # 7. 퍼블리시
+        # Publish result
         result_msg = self.bridge.cv2_to_imgmsg(mask, encoding='mono8')
         result_msg.header.stamp = msg.header.stamp
         result_msg.header.frame_id = msg.header.frame_id
         self.publisher.publish(result_msg)
 
-        # 디버깅용 OpenCV 뷰
+        # Debug view
         cv2.imshow("Preprocessed Long-Line Mask", mask)
         cv2.waitKey(1)
-
 
 def main(args=None):
     rclpy.init(args=args)
