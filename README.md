@@ -68,7 +68,11 @@ source ~/.bashrc
 
 ```bash
 # 새 터미널에서 실행 (환경 적용 후)
-ros2 launch turtlebot3_manipulation_bringup gazebo_simulation.launch.py
+ros2 launch turtlebot3_manipulation_moveit_config moveit_gazebo.launch.py 
+
+# 새 터미널에서 실행
+ros2 launch turtlebot3_rokey_camera line_tracing.launch.py 
+
 ```
 
 ---
