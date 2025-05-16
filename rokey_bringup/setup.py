@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'obstacle_toggle_node = rokey_bringup.obstacle_toggle_node:main',
+            'trajectory_client = rokey_bringup.trajectory_client:main',
         ],
     },
 )
