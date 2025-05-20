@@ -1,0 +1,7 @@
+image_preprocessor:
+  ros__parameters:
+    min_length: 10.0
+    min_points: 5
+    blur_ksize: 21
+    adaptive_blocksize: 11
+    adaptive_C: 0.1
