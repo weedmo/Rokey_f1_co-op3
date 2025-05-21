@@ -1,94 +1,79 @@
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
+#include <std_msgs/msg/bool.hpp>
 #include <moveit/move_group_interface/move_group_interface.h>
-#include <moveit/planning_interface/planning_interface.h>
+#include <moveit/planning_scene_interface/planning_scene_interface.h>
 
-class ArucoPickNode : public rclcpp::Node
+class ArucoMoveitExecutor : public rclcpp::Node
 {
 public:
-  ArucoPickNode()
+  ArucoMoveitExecutor()
   : Node("pick_node"),
-    move_group_(std::shared_ptr<rclcpp::Node>(this), "arm"),
-    initial_pose_set_(false)
+    move_group_(std::make_shared<rclcpp::Node>("move_group_interface_node"), "arm")  // 🔁 그룹 이름은 본인 설정에 맞게 수정
   {
-    aruco_sub_ = this->create_subscription<geometry_msgs::msg::PoseStamped>(
-      "/aruco_marker_pose_base", 10,
-      std::bind(&ArucoPickNode::arucoCallback, this, std::placeholders::_1));
+    pose_sub_ = this->create_subscription<geometry_msgs::msg::PoseStamped>(
+      "/base_pose_from_marker", 10,
+      std::bind(&ArucoMoveitExecutor::pose_callback, this, std::placeholders::_1));
 
+    trigger_sub_ = this->create_subscription<std_msgs::msg::Bool>(
+      "/execute_pose_trigger", 10,
+      std::bind(&ArucoMoveitExecutor::trigger_callback, this, std::placeholders::_1));
+
+    // 옵션: plan 안정성을 위한 설정
     move_group_.setPlanningTime(5.0);
-    move_group_.setMaxVelocityScalingFactor(0.3);
-    move_group_.setMaxAccelerationScalingFactor(0.3);
+    move_group_.setGoalPositionTolerance(0.01);
+    move_group_.setGoalOrientationTolerance(0.05);
 
-    RCLCPP_INFO(this->get_logger(), "Aruco Pick Node Started.");
+    RCLCPP_INFO(this->get_logger(), "✅ Aruco MoveIt Executor 노드 시작됨");
   }
 
 private:
-  void arucoCallback(const geometry_msgs::msg::PoseStamped::SharedPtr msg)
-  {
-    if (!initial_pose_set_)
-    {
-      initial_pose_ = move_group_.getCurrentPose().pose;
-      initial_pose_set_ = true;
-      RCLCPP_INFO(this->get_logger(), "Initial pose saved.");
-    }
-
-    RCLCPP_INFO(this->get_logger(), "Aruco Marker Pose Received");
-
-    geometry_msgs::msg::PoseStamped marker_pose = *msg;
-
-    // STEP 1: 접근 pose (z 위에서 접근)
-    geometry_msgs::msg::Pose approach_pose = marker_pose.pose;
-    approach_pose.position.z += 0.10;
-
-    if (!planAndExecute(approach_pose, "Approach"))
-      return;
-
-    // STEP 2: 실제 집기 위치 (내려감)
-    geometry_msgs::msg::Pose grasp_pose = marker_pose.pose;
-    grasp_pose.position.z += 0.02;
-
-    if (!planAndExecute(grasp_pose, "Grasp"))
-      return;
-
-    // STEP 3: 다시 접근 위치로 올라감
-    if (!planAndExecute(approach_pose, "Lift"))
-      return;
-
-    // STEP 4: 초기 위치로 복귀
-    if (!planAndExecute(initial_pose_, "Return to initial"))
-      return;
-
-    RCLCPP_INFO(this->get_logger(), "Pick and place completed.");
-  }
-
-  bool planAndExecute(const geometry_msgs::msg::Pose& pose, const std::string& label)
-  {
-    move_group_.setPoseTarget(pose);
-    moveit::planning_interface::MoveGroupInterface::Plan plan;
-
-    if (move_group_.plan(plan) == moveit::core::MoveItErrorCode::SUCCESS)
-    {
-      RCLCPP_INFO(this->get_logger(), "[%s] Plan successful. Executing...", label.c_str());
-      move_group_.execute(plan);
-      return true;
-    }
-    else
-    {
-      RCLCPP_WARN(this->get_logger(), "[%s] Plan failed.", label.c_str());
-      return false;
-    }
-  }
-
-  rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr aruco_sub_;
   moveit::planning_interface::MoveGroupInterface move_group_;
-  geometry_msgs::msg::Pose initial_pose_;
-  bool initial_pose_set_;
+  geometry_msgs::msg::Pose latest_pose_;
+  bool pose_received_ = false;
+
+  rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr pose_sub_;
+  rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr trigger_sub_;
+
+  void pose_callback(const geometry_msgs::msg::PoseStamped::SharedPtr msg)
+  {
+    latest_pose_ = msg->pose;
+    pose_received_ = true;
+    RCLCPP_INFO(this->get_logger(), "📥 Pose 수신됨 (x=%.3f, y=%.3f, z=%.3f)",
+                msg->pose.position.x, msg->pose.position.y, msg->pose.position.z);
+  }
+
+  void trigger_callback(const std_msgs::msg::Bool::SharedPtr msg)
+  {
+    if (!pose_received_) {
+      RCLCPP_WARN(this->get_logger(), "❌ 아직 pose 수신 전입니다.");
+      return;
+    }
+
+    if (!msg->data) {
+      RCLCPP_INFO(this->get_logger(), "⚠️ Trigger 메시지가 false입니다. 무시합니다.");
+      return;
+    }
+
+    move_group_.clearPoseTargets();  // 이전 목표 제거
+    move_group_.setPoseTarget(latest_pose_);
+
+    moveit::planning_interface::MoveGroupInterface::Plan plan;
+    bool success = (move_group_.plan(plan) == moveit::core::MoveItErrorCode::SUCCESS);
+
+    if (success) {
+      RCLCPP_INFO(this->get_logger(), "✅ Plan 성공, 실행 시작!");
+      move_group_.execute(plan);
+    } else {
+      RCLCPP_ERROR(this->get_logger(), "❌ 경로 계획 실패!");
+    }
+  }
 };
 
 int main(int argc, char **argv)
 {
   rclcpp::init(argc, argv);
-  auto node = std::make_shared<ArucoPickNode>();
+  auto node = std::make_shared<ArucoMoveitExecutor>();
   rclcpp::spin(node);
   rclcpp::shutdown();
   return 0;

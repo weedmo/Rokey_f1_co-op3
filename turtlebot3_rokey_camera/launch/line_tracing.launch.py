@@ -50,4 +50,10 @@ def generate_launch_description():
             output='screen',
             parameters=[sobel_param_file]
         ),
+        Node(
+            package='turtlebot3_rokey_camera',
+            executable='lidar_roi',
+            name='lidar_roi',
+            output='screen',
+        ),
     ])

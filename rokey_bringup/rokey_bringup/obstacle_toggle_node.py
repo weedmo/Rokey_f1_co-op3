@@ -13,10 +13,10 @@ class ObstacleToggleNode(Node):
         self.spawned = False
 
     def toggle_obstacle(self):
-        if not self.spawn_cli.wait_for_service(timeout_sec=1.0):
+        if not self.spawn_cli.wait_for_service(timeout_sec=3.0):
             self.get_logger().warn('spawn_entity service not available')
             return
-        if not self.delete_cli.wait_for_service(timeout_sec=1.0):
+        if not self.delete_cli.wait_for_service(timeout_sec=1.2):
             self.get_logger().warn('delete_entity service not available')
             return
 
@@ -26,7 +26,7 @@ class ObstacleToggleNode(Node):
             self.delete_cli.call_async(req)
             self.get_logger().info('Obstacle removed')
         else:
-            sdf_path = os.path.expanduser('~/team_f_01_ws/src/turtlebot3_manipulation/turtlebot3_manipulation_bringup/worlds/obstacle_box/model.sdf')
+            sdf_path = os.path.expanduser('~/team_f_01_ws/src/Rokey_f1_co-op3/turtlebot3_manipulation_bringup/worlds/obstacle_box/model.sdf')
             with open(sdf_path, 'r') as f:
                 sdf = f.read()
 

@@ -30,7 +30,8 @@ setup(
             'image_preprocessor = turtlebot3_rokey_camera.image_preprocessor:main',
             'sobel_curve_direction = turtlebot3_rokey_camera.sobel_curve_direction:main',
             'path_pub = turtlebot3_rokey_camera.path_pub:main',
-            'sliding_window_path_node = turtlebot3_rokey_camera.sliding_window_path_node:main',
+            'lidar_roi = turtlebot3_rokey_camera.lidar_roi:main',
+            'my_gui = turtlebot3_rokey_camera.my_gui:main',
         ],
     },
 )
