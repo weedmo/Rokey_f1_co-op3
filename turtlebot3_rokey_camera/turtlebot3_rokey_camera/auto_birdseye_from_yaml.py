@@ -35,7 +35,7 @@ class BirdsEyeAuto(Node):
 
         # 2. 구독 및 퍼블리셔 설정
         self.subscription = self.create_subscription(
-            Image, '/pi_camera/preprocessed', self.image_callback, 10)
+            Image, '/lane_center/debug', self.image_callback, 10)
         self.birds_eye_pub = self.create_publisher(
             Image, '/pi_camera/birds_eye_view', 10)
 

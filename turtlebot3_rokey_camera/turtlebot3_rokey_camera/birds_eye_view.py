@@ -7,7 +7,7 @@ import numpy as np
 import yaml
 import os
 
-CONFIG_PATH = '/home/weed/team_f_01_ws/src/turtlebot3_rokey_camera/config/birds_eye_points.yaml'
+CONFIG_PATH = '/home/weed/team_f_01_ws/src/Rokey_f1_co-op3/turtlebot3_rokey_camera/config/birds_eye_points.yaml'
 clicked_points = []
 done = False
 

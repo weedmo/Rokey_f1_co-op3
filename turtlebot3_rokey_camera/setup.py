@@ -29,6 +29,8 @@ setup(
             'aruco_pose_publisher = turtlebot3_rokey_camera.aruco_pose_publisher:main',
             'image_preprocessor = turtlebot3_rokey_camera.image_preprocessor:main',
             'sobel_curve_direction = turtlebot3_rokey_camera.sobel_curve_direction:main',
+            'path_pub = turtlebot3_rokey_camera.path_pub:main',
+            'sliding_window_path_node = turtlebot3_rokey_camera.sliding_window_path_node:main',
         ],
     },
 )

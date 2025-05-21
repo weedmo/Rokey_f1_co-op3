@@ -92,12 +92,16 @@ class SobelCurveDirection(Node):
 def main(args=None):
     rclpy.init(args=args)
     node = SobelCurveDirection()
+    
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
         print("종료됨.")
-    node.destroy_node()
-    rclpy.shutdown()
+    finally:
+        node.destroy_node()
+        if rclpy.ok():  # 이미 shutdown 되었는지 확인
+            rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()
