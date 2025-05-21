@@ -12,6 +12,7 @@ import os
 # ✅ YAML 경로 수동 지정
 # CONFIG_FILE = "~/team_f_01_ws/src/turtlebot3_rokey_camera/config/birds_eye_points.yaml"
 
+
 class BirdsEyeAuto(Node):
     def __init__(self):
         super().__init__('birds_eye_auto')
@@ -19,6 +20,8 @@ class BirdsEyeAuto(Node):
 
         # ✅ launch에서 전달받는 파라미터 읽기
         config_path = self.declare_parameter('config_file_path', '').get_parameter_value().string_value
+        # config_path = "~/team_f_01_ws/src/turtlebot3_rokey_camera/config/birds_eye_points.yaml"
+
         config_path = os.path.expanduser(config_path)  # ~ 해석
 
         if not os.path.exists(config_path):
