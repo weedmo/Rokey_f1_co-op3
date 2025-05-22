@@ -32,6 +32,9 @@ setup(
             'aruco_real_pose_pub = turtlebot3_rokey_camera.aruco_real_pose_pub:main',
             'aruco_detector = turtlebot3_rokey_camera.aruco_detector:main',
             'image_line = turtlebot3_rokey_camera.image_line:main',
+            'camera_to_base = turtlebot3_rokey_camera.camera_to_base:main',
+            'lidar_roi = turtlebot3_rokey_camera.lidar_roi:main',
+            'my_gui = turtlebot3_rokey_camera.my_gui:main',
         ],
     },
 )

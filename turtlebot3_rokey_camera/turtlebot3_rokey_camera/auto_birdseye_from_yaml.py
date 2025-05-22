@@ -75,8 +75,8 @@ class BirdsEyeAuto(Node):
         self.birds_eye_pub.publish(marked_msg)
 
         # 7. 디버깅 출력
-        cv2.imshow("Marked & Rotated Bird's Eye View", rotated_image)
-        cv2.waitKey(1)
+        # cv2.imshow("Marked & Rotated Bird's Eye View", rotated_image)
+        # cv2.waitKey(1)
 
 
 def main(args=None):

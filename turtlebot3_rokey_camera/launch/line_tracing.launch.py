@@ -38,8 +38,8 @@ def generate_launch_description():
         ),
         Node(
             package='turtlebot3_rokey_camera',
-            executable='image_line',  
-            name='image_line',
+            executable='image_preprocessor',  
+            name='image_preprocessor',
             output='screen',
             #parameters=[image_preprocessor_param_file]
         ),
@@ -51,4 +51,22 @@ def generate_launch_description():
             output='screen',
             parameters=[sobel_param_file]
         ),
+        Node(
+            package='turtlebot3_rokey_camera',
+            executable='lidar_roi',
+            name='lidar_roi',
+            output='screen',
+        ),
+        Node(
+            package='turtlebot3_rokey_camera',
+            executable='aruco_pose_publisher',
+            name='aruco_pose_publisher',
+            output='screen',
+        ),
+        # Node(
+        #     package='turtlebot3_rokey_camera',
+        #     executable='my_gui',
+        #     name='my_gui',
+        #     output='screen',
+        # ),
     ])

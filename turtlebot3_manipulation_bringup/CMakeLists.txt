@@ -8,64 +8,54 @@ project(turtlebot3_manipulation_bringup)
 # Find and load build settings from external packages
 ################################################################################
 find_package(ament_cmake REQUIRED)
+# find dependencies
+find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(geometry_msgs REQUIRED)
-find_package(aruco_msgs REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
-find_package(tf2 REQUIRED)
-find_package(tf2_ros REQUIRED)
-find_package(control_msgs REQUIRED)
-find_package(trajectory_msgs REQUIRED)
+find_package(moveit_common REQUIRED)
+find_package(moveit_core REQUIRED)
+find_package(geometry_msgs REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
-###############################################################################
-add_executable(aruco_follower_node src/aruco_follower_node.cpp)
-ament_target_dependencies(aruco_follower_node
+find_package(tf2_ros REQUIRED)
+
+
+add_executable(mission_pose src/mission_pose.cpp)
+ament_target_dependencies(mission_pose
   rclcpp
+  moveit_ros_planning_interface
+  moveit_common
+  moveit_core
   geometry_msgs
-  aruco_msgs
-  moveit_ros_planning_interface
-  tf2
-  tf2_ros
   tf2_geometry_msgs
+  tf2_ros
 )
 
-# init_pose_node
-add_executable(init_pose_node src/init_pose_node.cpp)
-ament_target_dependencies(init_pose_node
+add_executable(init_pose src/init_pose.cpp)
+ament_target_dependencies(init_pose
   rclcpp
   moveit_ros_planning_interface
-)
-add_executable(task_executor_node src/task_executor_node.cpp)
-ament_target_dependencies(task_executor_node
-  rclcpp
-  rclcpp_action
-  moveit_ros_planning_interface
-  control_msgs
-  trajectory_msgs
-)
-add_executable(gripper_test_node src/gripper_test_node.cpp)
-
-# 실행 파일에 필요한 라이브러리 연결
-ament_target_dependencies(gripper_test_node
-  rclcpp
-  moveit_ros_planning_interface
+  moveit_common
+  moveit_core
+  geometry_msgs
+  tf2_geometry_msgs
+  tf2_ros
 )
 
-# 설치 경로 지정
+################################################################################
+# Install
+################################################################################
+# install
 install(TARGETS
-  gripper_test_node
+  mission_pose
+  init_pose
   DESTINATION lib/${PROJECT_NAME}
 )
-install(TARGETS task_executor_node DESTINATION lib/${PROJECT_NAME})
-install(TARGETS
-  aruco_follower_node
-  init_pose_node
-  DESTINATION lib/${PROJECT_NAME}
-)
-
 install(
   DIRECTORY launch config rviz worlds
   DESTINATION share/${PROJECT_NAME}
 )
 
+################################################################################
+# Macro for ament package
+################################################################################
 ament_package()

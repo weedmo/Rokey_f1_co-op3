@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
             'obstacle_toggle_node = rokey_bringup.obstacle_toggle_node:main',
             'trajectory_client = rokey_bringup.trajectory_client:main',
+            'gripper_mover = rokey_bringup.gripper_mover:main',
         ],
     },
 )

@@ -19,8 +19,8 @@ def generate_launch_description():
         ),
         Node(
             package='turtlebot3_manipulation_bringup',
-            executable='init_pose_node',
-            name='init_pose_node',
+            executable='init_pose',
+            name='init_pose',
             output='screen'
         ),
     ])
