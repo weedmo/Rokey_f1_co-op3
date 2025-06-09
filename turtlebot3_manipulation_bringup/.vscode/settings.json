@@ -1,0 +1,16 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/opt/ros/humble/lib/python/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages",
+        "/home/weed/ros2_ws/install/common2/lib/common2/imp",
+        "/path/to/ModernRobotics/Python"
+    ],
+    "python.analysis.extraPaths": [
+        "/opt/ros/humble/lib/python/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages",
+        "/home/weed/ros2_ws/install/common2/lib/common2/imp",
+        "/path/to/ModernRobotics/Python"
+    ]
+}

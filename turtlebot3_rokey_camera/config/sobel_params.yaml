@@ -1,0 +1,7 @@
+sobel_curve_direction:
+  ros__parameters:
+    score_threshold: 1500000
+    max_ang: 0.25
+    base_lin: 0.1
+    gain: 0.00003
+    lost_rotate_gain: 1.0

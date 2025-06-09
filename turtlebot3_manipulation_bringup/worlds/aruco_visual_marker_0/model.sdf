@@ -1,0 +1,79 @@
+<?xml version='1.0'?>
+<sdf version='1.6'>
+  <model name='aruco_visual_marker_0'>
+
+    <allow_auto_disable>true</allow_auto_disable>
+
+    <link name='marker'>
+      <pose>0 0 0.025 0 0 0</pose>
+
+      <!-- ▶ Inertial (for physics simulation) -->
+      <inertial>
+        <mass>0.05</mass>
+        <inertia>
+          <ixx>5.208e-06</ixx>
+          <iyy>5.208e-06</iyy>
+          <izz>5.208e-06</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+        <pose>0 0 0 0 0 0</pose>
+      </inertial>
+
+      <!-- ▶ Top face with ArUco marker -->
+      <visual name='face_top'>
+        <pose>0 0 0.025 0 0 0</pose>
+        <geometry>
+          <box><size>0.05 0.05 0.0001</size></box>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://aruco_visual_marker_0/materials/scripts</uri>
+            <uri>model://aruco_visual_marker_0/materials/textures</uri>
+            <name>ArucoVisualMarker0/Marker</name>
+          </script>
+        </material>
+      </visual>
+
+      <!-- ▶ Other 5 faces -->
+      <visual name="face_bottom">
+        <pose>0 0 -0.025 0 0 0</pose>
+        <geometry><box><size>0.05 0.05 0.0001</size></box></geometry>
+        <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/White</name></script></material>
+      </visual>
+
+      <visual name="face_front">
+        <pose>0 -0.025 0 1.5708 0 0</pose>
+        <geometry><box><size>0.05 0.05 0.0001</size></box></geometry>
+        <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/White</name></script></material>
+      </visual>
+
+      <visual name="face_back">
+        <pose>0 0.025 0 -1.5708 0 0</pose>
+        <geometry><box><size>0.05 0.05 0.0001</size></box></geometry>
+        <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/White</name></script></material>
+      </visual>
+
+      <visual name="face_left">
+        <pose>-0.025 0 0 0 1.5708 0</pose>
+        <geometry><box><size>0.05 0.05 0.0001</size></box></geometry>
+        <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/White</name></script></material>
+      </visual>
+
+      <visual name="face_right">
+        <pose>0.025 0 0 0 -1.5708 0</pose>
+        <geometry><box><size>0.05 0.05 0.0001</size></box></geometry>
+        <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/White</name></script></material>
+      </visual>
+
+      <!-- ▶ Collision box -->
+      <collision name='collision'>
+        <geometry>
+          <box><size>0.05 0.05 0.05</size></box>
+        </geometry>
+      </collision>
+    </link>
+
+  </model>
+</sdf>
