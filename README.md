@@ -1,2 +1,2 @@
-# Rokey_f1_co-op3
-여기는 main branch 입니다 수정을 하지 않는 최종 코드들만 모아둡니다.
+# 🤖 TurtleBot3 Manipulator Digital Twin Project (ROS 2 Humble)
+<p align="center"> <img src="https://img.shields.io/badge/ROS2-Humble-blue?logo=ros" /> <img src="https://img.shields.io/badge/TurtleBot3+Manipulator-robot-brightgreen?logo=raspberrypi" /> <img src="https://img.shields.io/badge/Python-C++-critical?logo=python" /> <img src="https://img.shields.io/badge/OpenCV-computer%20vision-red?logo=opencv" /> <img src="https://img.shields.io/badge/MoveIt2-motion%20planning-blueviolet?logo=moveit" /> <img src="https://img.shields.io/badge/Gazebo-digital%20twin-lightgrey?logo=gazebo" /> </p>
