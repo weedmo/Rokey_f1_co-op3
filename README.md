@@ -18,6 +18,11 @@
 ---
 
 ## 🎥 Demo Video
+<p align="center">
+  <a href="https://youtu.be/NclsziqyBPk">
+    <img src="https://img.youtube.com/vi/NclsziqyBPk/0.jpg" alt="Watch the video"/>
+  </a>
+</p>
 
 ---
 
