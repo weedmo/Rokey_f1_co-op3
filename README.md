@@ -1,4 +1,3 @@
-# 🤖 TurtleBot3 Manipulator Digital Twin Project (ROS 2 Humble)
 <p align="center">
   <img src="https://img.shields.io/badge/ROS2-Humble-blue?logo=ros" />
   <img src="https://img.shields.io/badge/TurtleBot3+Manipulator-robot-brightgreen?logo=raspberrypi" />
@@ -7,5 +6,7 @@
   <img src="https://img.shields.io/badge/OpenCV-computer%20vision-red?logo=opencv" />
   <img src="https://img.shields.io/badge/MoveIt2-motion%20planning-blueviolet?logo=moveit" />
   <img src="https://img.shields.io/badge/Gazebo-digital%20twin-lightgrey?logo=gazebo" />
+  <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache" />
 </p>
 
+# 🤖 TurtleBot3 Manipulator Digital Twin Project (ROS 2 Humble)
