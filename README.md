@@ -13,16 +13,15 @@
 
 ---
 
-## 📌 Overview
-A Digital Twin project that implements Line Tracing and Pick & Place tasks both in Gazebo simulation and on a real robot.
+## 📌Overview
 
-Built on ROS 2 Humble using TurtleBot3 Waffle Pi with OpenManipulator-X
+**A Digital Twin project that implements Line Tracing and Pick & Place tasks both in Gazebo simulation and on a real robot.**
 
-Lane detection and ArUco marker tracking using OpenCV for task target recognition
+- Built on ROS 2 Humble using TurtleBot3 Waffle Pi with OpenManipulator-X  
+- Lane detection and ArUco marker tracking using OpenCV for task target recognition  
+- Arm manipulation via MoveIt2 with synchronized motion in both Gazebo and the physical robot  
+- Designed to operate seamlessly across simulation and real-world environments  
 
-Arm manipulation via MoveIt2 with synchronized motion in both Gazebo and the physical robot
-
-Designed to operate seamlessly across simulation and real-world environments
 ---
 
 ## 🎥 Demo Video
