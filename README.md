@@ -27,6 +27,7 @@
 ---
 
 ## 🔁 System Architecture
+![image](https://github.com/user-attachments/assets/a3302257-6ba5-4bcd-aeef-815c711b3994)
 
 ---
 
