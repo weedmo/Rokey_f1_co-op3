@@ -46,7 +46,7 @@
 ## 📄 Documentation
 For a detailed explanation of this project, please refer to the following document:
 
-👉 [docs/F-1_협동3_한준모_김태영_김도엽_이종휘(중도포기).pdf](docs/F-1_협동3_한준모_김태영_김도엽_이종휘(중도포기).pdf)
+👉 [docs](docs/F-1_협동3_한준모_김태영_김도엽_이종휘(중도포기).pdf)
 ---
 ## 👥 Contributors
 Thanks to these wonderful people who have contributed to this project:
